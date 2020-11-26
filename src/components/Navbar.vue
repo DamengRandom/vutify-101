@@ -1,5 +1,13 @@
 <template>
   <nav>
+    <v-snackbar v-model="snackbar" :timeout="4000">
+      {{ successMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="teal" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-app-bar app class="text-uppercase dark--text">
       <v-icon
         class="mr-2"
@@ -25,6 +33,12 @@
           </v-avatar>
           <p class="subheading text-center">title</p>
         </v-flex>
+        <v-flex class="mt-4 mb-3">
+          <Popup
+            @projectAdded="snackbar = true"
+            @closeNavbar="drawer = false"
+          />
+        </v-flex>
       </v-layout>
       <v-list v-for="link in links" :key="link.text">
         <router-link :to="link.route" name="link.text">
@@ -45,6 +59,7 @@
 </template>
 
 <script>
+import Popup from "./Popup";
 export default {
   name: "Navbar",
   data() {
@@ -55,7 +70,9 @@ export default {
         { icon: "mdi-home", text: "Dashboard", route: "/" },
         { icon: "mdi-account", text: "About", route: "/about" },
         { icon: "mdi-checkerboard", text: "Playground", route: "/play" }
-      ]
+      ],
+      snackbar: false,
+      successMessage: "Data has been sent out successfully 🚀🚀"
     };
   },
   computed: {
@@ -67,6 +84,9 @@ export default {
     toggleDrawer(currentToggle) {
       this.drawer = currentToggle;
     }
+  },
+  components: {
+    Popup
   }
 };
 </script>
