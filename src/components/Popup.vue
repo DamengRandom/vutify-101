@@ -134,7 +134,7 @@ export default {
           this.$emit("projectAdded");
           // close navbar
           this.$emit("closeNavbar");
-        }, 3000);
+        }, 1000);
       } else {
         this.loading = false;
         // show hin message
